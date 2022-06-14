@@ -21,9 +21,9 @@ boxesArray.forEach(function (box) {
     insertPiece(box);
     updateClaimedGrid(box);
     if (checkVictory()) {
-      let winner = currentTurn ? "1 (X)" : "2 (O)";
-      turnText.innerHTML = "player " + winner + " is the winner!";
-      console.log("HEY WE HAVE A WINNER!");
+      // let winner = currentTurn ? "1 (X)" : "2 (O)";
+      // turnText.innerHTML = "player " + winner + " is the winner!";
+      // console.log("HEY WE HAVE A WINNER!");
       return;
     }
     // checkVictory();
@@ -84,13 +84,14 @@ function updateClaimedGrid(box) {
 
 function updateTurn(box) {
   currentTurn = !currentTurn;
-  turnTextPlayer.innerHTML = currentTurn ? "1 (x)" : "2 (o)";
+  turnTextPlayer.innerHTML = currentTurn ? "1 (X)" : "2 (O)";
   turnText.classList.toggle("red");
 }
 
 function checkVictory() {
   let winnerGlow = currentTurn ? "blue_highlight" : "red_highlight";
   let w1, w2, w3;
+
   for (let row in [0, 1, 2]) {
     if (
       claimedGridArray[row][0] > 0 &&
@@ -107,6 +108,7 @@ function checkVictory() {
       boxesArray[w1].classList.toggle(winnerGlow);
       boxesArray[w2].classList.toggle(winnerGlow);
       boxesArray[w3].classList.toggle(winnerGlow);
+      displayWinner()
       return true;
     }
   }
@@ -126,6 +128,7 @@ function checkVictory() {
       boxesArray[w1].classList.toggle(winnerGlow);
       boxesArray[w2].classList.toggle(winnerGlow);
       boxesArray[w3].classList.toggle(winnerGlow);
+      displayWinner()
       return true;
     }
   }
@@ -138,6 +141,7 @@ function checkVictory() {
     boxesArray[0].classList.toggle(winnerGlow);
     boxesArray[4].classList.toggle(winnerGlow);
     boxesArray[8].classList.toggle(winnerGlow);
+    displayWinner()
     return true;
   }
   if (
@@ -148,7 +152,25 @@ function checkVictory() {
     boxesArray[2].classList.toggle(winnerGlow);
     boxesArray[4].classList.toggle(winnerGlow);
     boxesArray[6].classList.toggle(winnerGlow);
+    displayWinner()
     return true;
   }
-  return false;
+
+  //check for draw
+  for (let row in [0, 1, 2]) {
+    for (let col in [0, 1, 2]) {
+      if (claimedGridArray[row][col] == 0) {
+        return false;
+      }
+    }
+  }
+  turnText.innerHTML = "It's a Draw!";
+  console.log("DRAW!");
+  return true;
+}
+
+function displayWinner() {
+  let winner = currentTurn ? "1 (X)" : "2 (O)";
+  turnText.innerHTML = "player " + winner + " is the winner!";
+  console.log("HEY WE HAVE A WINNER!");
 }
