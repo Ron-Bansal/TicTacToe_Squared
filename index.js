@@ -2,17 +2,45 @@
 const boxesArray = document.querySelectorAll(".box");
 const turnText = document.querySelector(".turn");
 const turnTextPlayer = document.querySelector(".current_player");
+const reset = document.querySelector(".reset");
 
-let currentTurn = true;
-// true = p1; false = p2
-const claimedGridArray = [
+let claimedGridArray = [
   [0, 0, 0],
   [0, 0, 0],
   [0, 0, 0],
 ];
 
+let currentTurn = true;
+// true = p1; false = p2
+
+resetGame();
+
+function resetGame() {
+  // reset.classList.remove("hidden");
+  reset.innerText = "restart";
+  
+  claimedGridArray = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0],
+  ];
+
+  boxesArray.forEach(function(box) {
+    box.innerText = " ";
+    box.classList.remove('blue_highlight');
+    box.classList.remove('red_highlight');
+  })
+
+  currentTurn = true;
+  // true = p1; false = p2
+  turnText.innerHTML = "Your turn, player 1 (X)";
+  turnText.classList.remove("red");
+}
+
 boxesArray.forEach(function (box) {
   box.addEventListener("click", (event) => {
+    reset.classList.remove("hidden");
+
     // let clicked_box = box.getAttribute("value");
     // validateMove(box);
     if (!validateMove(box)) {
@@ -21,14 +49,17 @@ boxesArray.forEach(function (box) {
     insertPiece(box);
     updateClaimedGrid(box);
     if (checkVictory()) {
-      // let winner = currentTurn ? "1 (X)" : "2 (O)";
-      // turnText.innerHTML = "player " + winner + " is the winner!";
-      // console.log("HEY WE HAVE A WINNER!");
+      // reset.classList.remove("hidden");
+      reset.innerText = "play again";
       return;
     }
-    // checkVictory();
-    updateTurn(box);
+    updateTurn();
   });
+});
+
+reset.addEventListener("click", (event) => {
+  resetGame();
+  console.log("reset game");
 });
 
 function validateMove(box) {
@@ -82,7 +113,7 @@ function updateClaimedGrid(box) {
   console.log(claimedGridArray);
 }
 
-function updateTurn(box) {
+function updateTurn() {
   currentTurn = !currentTurn;
   turnTextPlayer.innerHTML = currentTurn ? "1 (X)" : "2 (O)";
   turnText.classList.toggle("red");
@@ -108,7 +139,7 @@ function checkVictory() {
       boxesArray[w1].classList.toggle(winnerGlow);
       boxesArray[w2].classList.toggle(winnerGlow);
       boxesArray[w3].classList.toggle(winnerGlow);
-      displayWinner()
+      displayWinner();
       return true;
     }
   }
@@ -128,7 +159,7 @@ function checkVictory() {
       boxesArray[w1].classList.toggle(winnerGlow);
       boxesArray[w2].classList.toggle(winnerGlow);
       boxesArray[w3].classList.toggle(winnerGlow);
-      displayWinner()
+      displayWinner();
       return true;
     }
   }
@@ -141,7 +172,7 @@ function checkVictory() {
     boxesArray[0].classList.toggle(winnerGlow);
     boxesArray[4].classList.toggle(winnerGlow);
     boxesArray[8].classList.toggle(winnerGlow);
-    displayWinner()
+    displayWinner();
     return true;
   }
   if (
@@ -152,7 +183,7 @@ function checkVictory() {
     boxesArray[2].classList.toggle(winnerGlow);
     boxesArray[4].classList.toggle(winnerGlow);
     boxesArray[6].classList.toggle(winnerGlow);
-    displayWinner()
+    displayWinner();
     return true;
   }
 

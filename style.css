@@ -63,11 +63,13 @@ h3, h4, h5 {
     font-size: 2em;
     padding: 5px 12px;
     border-radius: 10px;
+    background-color: #aeaea2ad;
     /* width: 125px; */
 }
 
 .reset:hover {
     cursor: pointer;
+    color: rgb(43, 42, 42);
     background-color: #8d8d7e81;
     transition-delay: 0.1s;
 }
