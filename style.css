@@ -88,7 +88,6 @@ h3, h4 {
     background-color: rgba(190, 184, 190, 0.4);
 }
 
-
 .r1> .box {
     border-top: none;
 }
@@ -111,4 +110,12 @@ h3, h4 {
 
 .red {
     color: #DC2828;
+}
+
+.blue_highlight {
+    background-color: rgba(25, 155, 185, 0.3);
+}
+
+.red_highlight {
+    background-color: rgba(235, 90, 90, 0.3);
 }

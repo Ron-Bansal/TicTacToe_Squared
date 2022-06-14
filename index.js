@@ -13,7 +13,7 @@ const claimedGridArray = [
 
 boxesArray.forEach(function (box) {
   box.addEventListener("click", (event) => {
-    let clicked_box = box.getAttribute("value");
+    // let clicked_box = box.getAttribute("value");
     // validateMove(box);
     if (!validateMove(box)) {
       return;
@@ -21,6 +21,8 @@ boxesArray.forEach(function (box) {
     insertPiece(box);
     updateClaimedGrid(box);
     if (checkVictory()) {
+      let winner = currentTurn ? "1 (X)" : "2 (O)";
+      turnText.innerHTML = "player " + winner + " is the winner!";
       console.log("HEY WE HAVE A WINNER!");
       return;
     }
@@ -87,13 +89,24 @@ function updateTurn(box) {
 }
 
 function checkVictory() {
-  // check rows
+  let winnerGlow = currentTurn ? "blue_highlight" : "red_highlight";
+  let w1, w2, w3;
   for (let row in [0, 1, 2]) {
     if (
       claimedGridArray[row][0] > 0 &&
       claimedGridArray[row][0] == claimedGridArray[row][1] &&
       claimedGridArray[row][1] == claimedGridArray[row][2]
     ) {
+      if (row == 0) {
+        [w1, w2, w3] = [0, 1, 2];
+      } else if (row == 1) {
+        [w1, w2, w3] = [3, 4, 5];
+      } else {
+        [w1, w2, w3] = [6, 7, 8];
+      }
+      boxesArray[w1].classList.toggle(winnerGlow);
+      boxesArray[w2].classList.toggle(winnerGlow);
+      boxesArray[w3].classList.toggle(winnerGlow);
       return true;
     }
   }
@@ -103,6 +116,16 @@ function checkVictory() {
       claimedGridArray[0][col] == claimedGridArray[1][col] &&
       claimedGridArray[1][col] == claimedGridArray[2][col]
     ) {
+      if (col == 0) {
+        [w1, w2, w3] = [0, 3, 6];
+      } else if (col == 1) {
+        [w1, w2, w3] = [1, 4, 7];
+      } else {
+        [w1, w2, w3] = [2, 5, 8];
+      }
+      boxesArray[w1].classList.toggle(winnerGlow);
+      boxesArray[w2].classList.toggle(winnerGlow);
+      boxesArray[w3].classList.toggle(winnerGlow);
       return true;
     }
   }
@@ -112,6 +135,9 @@ function checkVictory() {
     claimedGridArray[0][0] == claimedGridArray[1][1] &&
     claimedGridArray[1][1] == claimedGridArray[2][2]
   ) {
+    boxesArray[0].classList.toggle(winnerGlow);
+    boxesArray[4].classList.toggle(winnerGlow);
+    boxesArray[8].classList.toggle(winnerGlow);
     return true;
   }
   if (
@@ -119,7 +145,10 @@ function checkVictory() {
     claimedGridArray[0][2] == claimedGridArray[1][1] &&
     claimedGridArray[1][1] == claimedGridArray[2][0]
   ) {
-    return true
+    boxesArray[2].classList.toggle(winnerGlow);
+    boxesArray[4].classList.toggle(winnerGlow);
+    boxesArray[6].classList.toggle(winnerGlow);
+    return true;
   }
-    return false;
+  return false;
 }
